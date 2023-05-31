@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mediaPlayer.setOnPreparedListener(this);
 
-                mediaPlayer.prepare();
+                mediaPlayer.prepareAsync();
                 mediaPlayer.start();
             } catch (IOException exception) {
                 textView.setText("Источник не найден");
