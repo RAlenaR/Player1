@@ -23,21 +23,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
     View.OnClickListener startListerner = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            try {
-
-                releaseMediaPlayer();
-                textView.setText("Начало вещания");
-                mediaPlayer = new MediaPlayer();
-                mediaPlayer.setDataSource(DATA_STREAM);
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                mediaPlayer.setOnPreparedListener(this);
-
-                mediaPlayer.prepareAsync();
-                mediaPlayer.start();
-            } catch (IOException exception) {
-                textView.setText("Источник не найден");
-            }
-
+            mediaPlayer.start();
         }
     };
     View.OnClickListener stopListerner = new View.OnClickListener() {
@@ -58,9 +44,22 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
         buttonStop = findViewById(R.id.buttonStop);
         textView = findViewById(R.id.textView);
         textView.setText("Привет");
+
+        releaseMediaPlayer();
+        textView.setText("Начало вещания");
+        mediaPlayer = new MediaPlayer();
         buttonStart.setOnClickListener(startListerner);
         buttonStop.setOnClickListener(stopListerner);
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+
+        try {
+            mediaPlayer.setDataSource(DATA_STREAM);
+        }catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setOnPreparedListener(this);
+        mediaPlayer.prepareAsync();
     }
 
         @Override
